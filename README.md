@@ -76,9 +76,10 @@ Asegúrate de tener instalados los siguientes componentes:
       npm run dev
     ```
 
+## Vistas
 
-### Crear Producto
-![Logo del Proyecto](./front/public/images/nuevo.png)
+  ### Crear Producto
+  ![Logo del Proyecto](./front/public/images/nuevo.png)
 
-### Editar Producto
-![Logo del Proyecto](./front/public/images/editar.png)
+  ### Editar Producto
+  ![Logo del Proyecto](./front/public/images/editar.png)
