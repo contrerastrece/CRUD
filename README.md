@@ -20,24 +20,18 @@ Asegúrate de tener instalados los siguientes componentes:
 
 ## Configuración del Proyecto
 
-### Backend
-
-1. Clona el repositorio:
+### Clona el repositorio:
 
    ```sh
     git clone https://github.com/contrerastrece/CRUD.git
-    cd back\api
    ```
-2. Configuración de appSettings.json:
+### Backend
 
-   ```json
-    {
-      "ConnectionStrings": {
-        "conection": "Server=localhost;Database=productdb;User=tu_usuario;Password=tu_contraseña;"
-        }
-    }
+1.  Activar mysql
+
+    ![Logo del Proyecto](./front/public/images/xamp.png)
  
-3. Crear BD y tabla:
+2. Crear BD y tabla:
 
    ```sql
       DROP DATABASE IF EXISTS productdb;
@@ -54,7 +48,27 @@ Asegúrate de tener instalados los siguientes componentes:
           precio DECIMAL(10, 2) NOT NULL
       );
    ```
-4. Ejecutar el Back:
+3. Acceder a la carpeta back/api:
+
+   ```sh
+    cd back\api
+   ```
+4. Instalar dependencias
+   ```sh
+      dotnet restore
+   ```
+
+   
+5. Configuración de back/api/appSettings.json:
+
+   ```json
+    {
+      "ConnectionStrings": {
+       "conection": "server=localhost;port=3306;uid=root;database=ProductDB"
+        }
+    }
+
+6. Ejecutar el Back:
  
    ```sh
       dotnet run

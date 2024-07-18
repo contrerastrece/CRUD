@@ -30,8 +30,3 @@
 *.log
 *.db
 .vs/
-<<<<<<< HEAD
-Publish/
-=======
-Publish/
->>>>>>> refs/remotes/origin/master
