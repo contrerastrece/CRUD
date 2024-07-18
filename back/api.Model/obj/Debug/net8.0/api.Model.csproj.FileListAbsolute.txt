@@ -1,0 +1,11 @@
+C:\Users\contr\Desktop\CRUD\back\api.Model\bin\Debug\net8.0\api.Model.deps.json
+C:\Users\contr\Desktop\CRUD\back\api.Model\bin\Debug\net8.0\api.Model.dll
+C:\Users\contr\Desktop\CRUD\back\api.Model\bin\Debug\net8.0\api.Model.pdb
+C:\Users\contr\Desktop\CRUD\back\api.Model\obj\Debug\net8.0\api.Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\contr\Desktop\CRUD\back\api.Model\obj\Debug\net8.0\api.Model.AssemblyInfoInputs.cache
+C:\Users\contr\Desktop\CRUD\back\api.Model\obj\Debug\net8.0\api.Model.AssemblyInfo.cs
+C:\Users\contr\Desktop\CRUD\back\api.Model\obj\Debug\net8.0\api.Model.csproj.CoreCompileInputs.cache
+C:\Users\contr\Desktop\CRUD\back\api.Model\obj\Debug\net8.0\api.Model.dll
+C:\Users\contr\Desktop\CRUD\back\api.Model\obj\Debug\net8.0\refint\api.Model.dll
+C:\Users\contr\Desktop\CRUD\back\api.Model\obj\Debug\net8.0\api.Model.pdb
+C:\Users\contr\Desktop\CRUD\back\api.Model\obj\Debug\net8.0\ref\api.Model.dll
