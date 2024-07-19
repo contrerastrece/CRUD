@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { GoPlusCircle } from "react-icons/go";
 import { Toaster, toast } from "sonner";
 import { ModalForm } from "./components/ModalForm";
@@ -16,9 +16,10 @@ function App() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [productSelected, setProductSelected] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); 
   const modalRef = useRef(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
       const data = await getAllProducts();
@@ -28,57 +29,72 @@ function App() {
     } finally {
       setIsLoading(false);
     }
+  }, []);
+
+  const handleSave = async (action, data) => {
+    const errors = validateForm(data);
+    if (errors.isOk) {
+      if (action === "create") {
+        await createProduct(data);
+      } else {
+        await editProduct(data);
+      }
+      fetchData();
+      setProductSelected(null);
+      setIsModalOpen(false); 
+    } else {
+      Object.values(errors.response).forEach((error) => toast.error(error));
+    }
   };
 
   const handleClick = async (action, data) => {
-    console.log({ action, data });
-
-    if (action === "btn_new") {
-      modalRef.current.showModal();
-      setProductSelected(null);
-    } else if (action === "btn_edit") {
-      modalRef.current.showModal();
-      setProductSelected(data);
-    } else if (action === "create") {
-      const errors = validateForm(data);
-      if (errors.isOk) {
-        await createProduct(data);
+    switch (action) {
+      case "btn_new":
+        setProductSelected(null);
+        setIsModalOpen(true);
+        break;
+      case "btn_edit":
+        setProductSelected(data);
+        setIsModalOpen(true);
+        break;
+      case "create":
+        await handleSave("create", data);
+        break;
+      case "update":
+        await handleSave("update", data);
+        break;
+      case "delete":
+        await deleteProduct(data);
         fetchData();
-        modalRef.current.close();
-      } else {
-        Object.values(errors.response).forEach((error) => toast.error(error));
-      }
-    } else if (action === "update") {
-      const errors = validateForm(data);
-      if (errors.isOk) {
-        await editProduct(data);
-        fetchData();
-        modalRef.current.close();
-      } else {
-        Object.values(errors.response).forEach((error) => toast.error(error));
-      }
-    } else if (action === "delete") {
-      await deleteProduct(data.id);
-      fetchData();
-    } else if (action === "cancel") {
-      setProductSelected(data);
-      modalRef.current.close();
+        break;
+      case "cancel":
+        setIsModalOpen(false); 
+        setProductSelected(null);
+        break;
+      default:
+        break;
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setProductSelected(null); 
+    }
+  }, [isModalOpen]);
 
   return (
-    <div className=" max-w-lg mx-auto ">
-      <div className=" flex gap-4 justify-between items-center my-4">
+    <div className="max-w-lg mx-auto">
+      <div className="flex gap-4 justify-between items-center my-4">
         <h2 className="text-3xl">Lista de productos</h2>
         <button
-          className="btn btn-neutral btn-sm rounded "
-          onClick={() => handleClick("btn_new", null)}
+          className="btn btn-neutral btn-sm rounded"
+          onClick={() => handleClick("btn_new")}
         >
-          <span className=" flex gap-2 items-center justify-center">
+          <span className="flex gap-2 items-center justify-center">
             <GoPlusCircle size={15} /> Nuevo
           </span>
         </button>
@@ -94,6 +110,8 @@ function App() {
         modalRef={modalRef}
         handleClick={handleClick}
         initialValues={productSelected}
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)}
       />
 
       <Toaster richColors expand={true} />

@@ -1,19 +1,37 @@
 import { LuBadgeDollarSign } from "react-icons/lu";
 import { useState, useEffect } from "react";
 
-export const ModalForm = ({ modalRef, handleClick, initialValues }) => {
+export const ModalForm = ({
+  modalRef,
+  handleClick,
+  initialValues,
+  isOpen,
+  onClose,
+}) => {
   const [formData, setFormData] = useState({ nombre: "", precio: "" });
 
   useEffect(() => {
-    if (initialValues) {
-      setFormData({
-        nombre: initialValues.nombre || "",
-        precio: initialValues.precio || "",
-      });
-    } else {
-      setFormData({ nombre: "", precio: "" });
+    if (isOpen) {
+      if (initialValues) {
+        setFormData({
+          nombre: initialValues.nombre || "",
+          precio: initialValues.precio || "",
+        });
+      } else {
+        setFormData({ nombre: "", precio: "" });
+      }
     }
-  }, [initialValues]);
+  }, [initialValues, isOpen]);
+
+  useEffect(() => {
+    if (modalRef.current) {
+      if (isOpen) {
+        modalRef.current.showModal();
+      } else {
+        modalRef.current.close();
+      }
+    }
+  }, [isOpen, modalRef]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +40,6 @@ export const ModalForm = ({ modalRef, handleClick, initialValues }) => {
 
   const handleSave = (e) => {
     e.preventDefault();
-
     if (initialValues) {
       handleClick("update", { id: initialValues.id, ...formData });
     } else {
@@ -32,7 +49,7 @@ export const ModalForm = ({ modalRef, handleClick, initialValues }) => {
 
   const handleCancel = () => {
     setFormData({ nombre: "", precio: "" });
-    handleClick("cancel", formData);
+    onClose();
   };
 
   return (
@@ -71,7 +88,6 @@ export const ModalForm = ({ modalRef, handleClick, initialValues }) => {
                   className="grow"
                   placeholder="00.00"
                   name="precio"
-                  // required
                   min={0.01}
                   step={0.01}
                   value={formData.precio}
